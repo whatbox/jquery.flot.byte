@@ -1,10 +1,15 @@
 {
 	"name": "jquery.flot.byte",
 	"version": "0.1",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/anthonyryan1/jquery.flot.byte.git"
+	},
 	"main": "jquery.flot.byte.js",
 	"scripts": {
 		"test": "make test"
 	},
+	"dependencies": {},
 	"devDependencies": {
 		"jshint": "1.1.0"
 	}
