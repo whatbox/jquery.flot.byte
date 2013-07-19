@@ -108,6 +108,6 @@
 		init: init,
 		options: options,
 		name: 'byte',
-		version: '0.1'
+		version: '0.1.0'
 	});
 })(jQuery);
