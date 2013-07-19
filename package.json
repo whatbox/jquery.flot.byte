@@ -1,0 +1,11 @@
+{
+	"name": "jquery.flot.byte",
+	"version": "0.1",
+	"main": "jquery.flot.byte.js",
+	"scripts": {
+		"test": "make test"
+	},
+	"devDependencies": {
+		"jshint": "1.1.0"
+	}
+}
