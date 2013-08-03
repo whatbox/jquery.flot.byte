@@ -90,7 +90,7 @@
 						if (typeof axis.rate !== "undefined") {
 							ext += "/s";
 						}
-											
+
 						return (size.toFixed(axis.tickDecimals) + ext);
 					};
 				}
