@@ -3,14 +3,17 @@
 	"version": "0.1.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/anthonyryan1/jquery.flot.byte.git"
+		"url": "https://github.com/whatbox/jquery.flot.byte.git"
 	},
 	"main": "jquery.flot.byte.js",
 	"scripts": {
 		"test": "./node_modules/.bin/jshint *.js"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"jquery": "*",
+		"flot": "*"
+	},
 	"devDependencies": {
-		"jshint": "2.5.0"
+		"jshint": "*"
 	}
 }
