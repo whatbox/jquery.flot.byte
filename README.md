@@ -4,7 +4,7 @@
 ## About
 This is a plugin for the jQuery powered Flot plotting library. It's goal is to make it easy to manage and display byte values on a chart. It uses labels everything as binary multiples rather than decimal figures (ie: GiB rather than GB).
 
-This is developed by [Whatbox Inc.](https://whatbox.ca/) for internal use and released as on Open Source project under the MIT license. Patches and bug reports are welcome, please see our [CLA](https://whatbox.ca/policies/contributions).
+This is developed by [Whatbox Inc.](https://whatbox.ca/) for internal use and released as on Open Source project under the MIT license. Patches and bug reports are welcome, please see CLA.md.
 
 
 ## Dependencies
