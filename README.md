@@ -15,15 +15,23 @@ The following packages are necessary for this module.
 The usage integrates in the same way as the native flot plugins, such as jquery.flot.time.
 
 	yaxis: {
-		min: 0, 
-		mode: "byte", 
+		min: 0,
+		mode: "byte",
 		axisLabel: "Bytes of data"
 	}
 
 Similarly, when expressing transfer rates, such as MiB/s.
 
 	yaxis: {
-		min: 0, 
-		mode: "byteRate", 
+		min: 0,
+		mode: "byteRate",
 		axisLabel: "Transfer rate"
+	}
+
+By default, this plugin will format using base 2 where 1 KiB = 1024 bytes, to
+change to base 1000 where 1 kB = 1000 bytes, you can specify a base.
+
+	yaxis: {
+		mode: "byte",
+		base: 10
 	}

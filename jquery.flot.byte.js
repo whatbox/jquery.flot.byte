@@ -12,6 +12,39 @@
 		plot.hooks.processDatapoints.push(function (plot) {
 			$.each(plot.getAxes(), function(axisName, axis) {
 				var opts = axis.options;
+
+				if (typeof opts.base === "number" && opts.base === 10) {
+					// Gigabytes, Terabytes
+					var EXTENSIONS = [
+						'B',
+						'kB',
+						'MB',
+						'GB',
+						'TB',
+						'PB',
+						'EB',
+						'ZB',
+						'YB',
+					];
+					var STEP_SIZE = 1000;
+
+				} else {
+					// Gibibytes, Tebibytes
+					var EXTENSIONS = [
+						'B',
+						'KiB',
+						'MiB',
+						'GiB',
+						'TiB',
+						'PiB',
+						'EiB',
+						'ZiB',
+						'YiB',
+					];
+					var STEP_SIZE = 1024;
+				}
+
+
 				if (opts.mode === "byte" || opts.mode === "byteRate") {
 					axis.tickGenerator = function (axis) {
 						var returnTicks = [],
@@ -22,11 +55,6 @@
 							tickVal,
 							tickCount = 0;
 
-						//Set the reference for the formatter
-						if (opts.mode === "byteRate") {
-							axis.rate = true;
-						}
-
 						//Enforce maximum tick Decimals
 						if (typeof opts.tickDecimals === "number") {
 							axis.tickDecimals = opts.tickDecimals;
@@ -35,13 +63,13 @@
 						}
 
 						//Count the steps
-						while (Math.abs(delta) >= 1024) {
+						while (Math.abs(delta) >= STEP_SIZE) {
 							steps++;
-							delta /= 1024;
+							delta /= STEP_SIZE;
 						}
 
 						//Set the tick size relative to the remaining delta
-						while (tickSize <= 1024) {
+						while (tickSize <= STEP_SIZE) {
 							if (delta <= tickSize) {
 								break;
 							}
@@ -52,7 +80,7 @@
 						if (typeof opts.minTickSize !== "undefined" && tickSize < opts.minTickSize) {
 							axis.tickSize = opts.minTickSize;
 						} else {
-							axis.tickSize = tickSize * Math.pow(1024,steps);
+							axis.tickSize = tickSize * Math.pow(STEP_SIZE, steps);
 						}
 
 						//Calculate the new ticks
@@ -66,32 +94,19 @@
 					};
 
 					axis.tickFormatter = function(size, axis) {
-						var ext, steps = 0;
+						var steps = 0;
 
-						while (Math.abs(size) >= 1024) {
+						while (Math.abs(size) >= STEP_SIZE) {
 							steps++;
-							size /= 1024;
+							size /= STEP_SIZE;
 						}
 
-
-						switch (steps) {
-							case 0: ext = " B";  break;
-							case 1: ext = " KiB"; break;
-							case 2: ext = " MiB"; break;
-							case 3: ext = " GiB"; break;
-							case 4: ext = " TiB"; break;
-							case 5: ext = " PiB"; break;
-							case 6: ext = " EiB"; break;
-							case 7: ext = " ZiB"; break;
-							case 8: ext = " YiB"; break;
-						}
-
-
-						if (typeof axis.rate !== "undefined") {
+						var ext = ' ' + EXTENSIONS[steps];
+						if (opts.mode === "byteRate") {
 							ext += "/s";
 						}
 
-						return (size.toFixed(axis.tickDecimals) + ext);
+						return (size.toFixed(axis.tickDecimals) + ' ' + ext);
 					};
 				}
 			});
