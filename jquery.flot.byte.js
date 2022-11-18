@@ -25,6 +25,8 @@
 						'EB',
 						'ZB',
 						'YB',
+						'RB',
+						'QB',
 					];
 					var STEP_SIZE = 1000;
 
@@ -46,52 +48,54 @@
 
 
 				if (opts.mode === "byte" || opts.mode === "byteRate") {
-					axis.tickGenerator = function (axis) {
-						var returnTicks = [],
-							tickSize = 2,
-							delta = axis.delta,
-							steps = 0,
-							tickMin = 0,
-							tickVal,
-							tickCount = 0;
+					if (typeof opts.base === "undefined" || opts.base === 2) {
+						axis.tickGenerator = function (axis) {
+							var returnTicks = [],
+								tickSize = 2,
+								delta = axis.delta,
+								steps = 0,
+								tickMin = 0,
+								tickVal,
+								tickCount = 0;
 
-						//Enforce maximum tick Decimals
-						if (typeof opts.tickDecimals === "number") {
-							axis.tickDecimals = opts.tickDecimals;
-						} else {
-							axis.tickDecimals = 2;
-						}
-
-						//Count the steps
-						while (Math.abs(delta) >= STEP_SIZE) {
-							steps++;
-							delta /= STEP_SIZE;
-						}
-
-						//Set the tick size relative to the remaining delta
-						while (tickSize <= STEP_SIZE) {
-							if (delta <= tickSize) {
-								break;
+							// Enforce maximum tick Decimals
+							if (typeof opts.tickDecimals === "number") {
+								axis.tickDecimals = opts.tickDecimals;
+							} else {
+								axis.tickDecimals = 2;
 							}
-							tickSize *= 2;
-						}
 
-						//Tell flot the tickSize we've calculated
-						if (typeof opts.minTickSize !== "undefined" && tickSize < opts.minTickSize) {
-							axis.tickSize = opts.minTickSize;
-						} else {
-							axis.tickSize = tickSize * Math.pow(STEP_SIZE, steps);
-						}
+							// Count the steps
+							while (Math.abs(delta) >= STEP_SIZE) {
+								steps++;
+								delta /= STEP_SIZE;
+							}
 
-						//Calculate the new ticks
-						tickMin = floorInBase(axis.min, axis.tickSize);
-						do {
-							tickVal = tickMin + (tickCount++) * axis.tickSize;
-							returnTicks.push(tickVal);
-						} while (tickVal < axis.max);
+							// Set the tick size relative to the remaining delta
+							while (tickSize <= STEP_SIZE) {
+								if (delta <= tickSize) {
+									break;
+								}
+								tickSize *= 2;
+							}
 
-						return returnTicks;
-					};
+							// Tell flot the tickSize we've calculated
+							if (typeof opts.minTickSize !== "undefined" && tickSize < opts.minTickSize) {
+								axis.tickSize = opts.minTickSize;
+							} else {
+								axis.tickSize = tickSize * Math.pow(STEP_SIZE, steps);
+							}
+
+							// Calculate the new ticks
+							tickMin = floorInBase(axis.min, axis.tickSize);
+							do {
+								tickVal = tickMin + (tickCount++) * axis.tickSize;
+								returnTicks.push(tickVal);
+							} while (tickVal < axis.max);
+
+							return returnTicks;
+						};
+					}
 
 					axis.tickFormatter = function(size, axis) {
 						var steps = 0;
@@ -120,3 +124,4 @@
 		version: "0.1"
 	});
 })(jQuery);
+
